@@ -1,0 +1,41 @@
+body {
+	font: 1em Arial, Verdana;
+	color: #c8c8c8;
+}
+
+h3 {
+	border-bottom: 1px solid #B4C4C9;
+	margin-top: .5em;
+	padding: 0 0 .5em .5em;
+}
+
+p {
+	margin: 4px 0;
+}
+
+span.brand {
+	color: #f28033;
+}
+
+div.box {
+	color: #555;
+	margin: 20px auto;
+	border: 1px solid #B4C4C9;
+	border-left: none;
+	border-right: none;
+	width: 910px;
+}
+
+div.contents {
+	margin: 0.5em;
+}
+
+code {
+	font-family: "Lucida Console", Monaco, monospace;
+	font-size: 0.8em;
+	border: 1px solid #B4C4C9;
+	padding: 8px;
+	background-color: #eaf0f2;
+	display: block;
+	margin-bottom: 1.5em;
+}

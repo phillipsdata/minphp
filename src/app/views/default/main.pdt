@@ -1,0 +1,20 @@
+
+	<div class="box">
+		<h3>Congratulations! <span class="brand">minPHP</span> was sucessfully installed</h3>
+		
+		<div class="contents">
+			<p>If this is your first trip around the block, why don't we hold hands?</p>
+	
+			<br />
+			<p>The <strong>controller</strong> for this page is located in:</p>	
+			<code>/app/controllers/main.php</code>
+	
+			<p>The <strong>page view</strong> for this page is located in:</p>	
+			<code>/app/views/default/main.pdt</code>
+			
+			<p>The <strong>structure view</strong> for this page is located in:</p>	
+			<code>/app/views/default/structure.pdt</code>
+			
+			<p>For more help, check out the <a href="http://www.minphp.org/documentation">documentation</a>.</p>
+		</div>
+	</div>

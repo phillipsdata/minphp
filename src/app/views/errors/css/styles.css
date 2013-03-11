@@ -1,0 +1,33 @@
+div.program_error {
+	font: 1em Arial, Verdana;
+	color: #555 !important;
+	margin: 20px auto;
+	border: 1px solid #b4c4c9;
+	border-left: none;
+	border-right: none;
+	width: 910px;
+}
+
+div.program_error h3 {
+	border-bottom: 1px solid #b4c4c9;
+	margin-top: .5em;
+	padding: 0 0 .5em .5em;
+}
+
+div.program_error p {
+	margin: 4px 0;
+}
+
+div.program_error .contents {
+	margin: 0.5em;
+}
+
+div.program_error code {
+	font-family: "Lucida Console", Monaco, monospace;
+	font-size: 0.8em;
+	border: 1px solid #b4c4c9;
+	padding: 8px;
+	background-color: #eaf0f2;
+	display: block;
+	margin-bottom: 1.5em;
+}
