@@ -372,6 +372,21 @@ class Input {
 		else
 			$method = $callback;
 		
+		$this->replaceLinkedParams($params, $path);
+		
+		// Push $data onto the list of parameters
+		array_unshift($params, $data);
+		
+		return call_user_func_array($method, $params);
+	}
+	
+	/**
+	 * Replaces all linked params in rules identified by an array with an index of '_linked'.
+	 *
+	 * @param array $params An array of paramters to pass to the callback, possibly containing linked params
+	 * @param array $path A list of all array indexes encountered
+	 */
+	private function replaceLinkedParams(&$params, $path) {
 		// Find all numeric paths for the current rule path, these are used
 		// for substitution in the _linked field for all blank indexes
 		foreach ($path as $index) {
@@ -409,11 +424,6 @@ class Input {
 				unset($data_set);
 			}
 		}
-		
-		// Push $data onto the list of parameters
-		array_unshift($params, $data);
-		
-		return call_user_func_array($method, $params);
 	}
 	
 	/**
@@ -450,6 +460,8 @@ class Input {
 			
 			// Push the $data[$index] value onto the array of parameters to be sent to the method governing the given rule
 			array_unshift($rule_set['rule'], $value);
+			
+			$this->replaceLinkedParams($rule_set['rule'], $path);
 			
 			// Call the rule given, which may be a callback or a method within the scope of this class
 			if (!is_array($method)) {
