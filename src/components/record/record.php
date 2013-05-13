@@ -795,7 +795,7 @@ class Record extends Model {
 		if (is_array($values)) {
 			foreach ($values as $field => $value) {
 				// if $value_keys given and field is not set, then skip this value
-				if (is_array($value_keys) && !in_array($field, $value_keys))
+				if (is_array($value_keys) && !in_array($field, $value_keys, true))
 					continue;
 				
 				$val = $value;
