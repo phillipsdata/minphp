@@ -20,7 +20,7 @@ error_reporting(-1);
 /**
  * Sets the version of minPHP in use.  [Major].[Minor].[Revision].[Build.RC]
  */
-define("MINPHP_VERSION", "0.11.0.20130129");
+define("MINPHP_VERSION", "0.11.1.20130717");
 
 /**
  * Sets the directory separator used throughout the application. DO NOT use this
