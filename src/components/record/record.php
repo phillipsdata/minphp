@@ -88,6 +88,7 @@ class Record extends Model {
 	/**
 	 * Sets a field with various options
 	 *
+	 * @param string $name The name of the field
 	 * @param array $attributes An array of attributes that may contain the following:
 	 * 	- type The type of field
 	 * 	- size The size of the field. If type is "varchar" size could be "64" to produce "varchar(64)" (optional)

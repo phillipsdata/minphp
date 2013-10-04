@@ -60,6 +60,10 @@ class Language {
 		// If the text defined exists, use it
 		if (isset(self::$lang_text[$language][$lang_key]))
 			$output = self::$lang_text[$language][$lang_key];
+		// If the text defined did not exist in the set language, look for it
+		// in the default language
+		elseif (isset(self::$lang_text[Configure::get("Language.default")][$lang_key]))
+			$output = self::$lang_text[Configure::get("Language.default")][$lang_key];
 		elseif (Configure::get("Language.allow_pass_through"))
 			$output = $lang_key;
 		

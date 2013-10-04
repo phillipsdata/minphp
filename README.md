@@ -12,7 +12,7 @@ minPHP is an extremely lightweight MVC framework for PHP application development
 2. Load the web directory in your browser.
 3. If your webserver does not support .htaccess files, delete the .htaccess file in the /src/ directory. You will need to access all URIs with a preceding "index.php/".
 
-### Controllers, Views, and URIs ###
+### Controlls, Views, and URIs ###
 
 **Controllers** are PHP class files that handle URI requests. Each controller and controller method (known as an **action**) represent a URI segment. For example, the "Foo" controller can be accessed at ```/foo/```. This would automatically invoke the ```Foo::index()``` method. This method could explicitly be invoked using the ```/foo/index/``` URI. Similarly, the "bar" method of Foo can be accessed at ```/foo/bar/```. 
 
