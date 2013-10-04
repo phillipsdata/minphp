@@ -139,7 +139,7 @@ class Dispatcher extends Controller {
 		$error_message = null;
 		
 		if ($e instanceof UnknownException) {
-			$error_message = $e->getMessage() . " on line <strong>" .
+			$error_message = htmlentities($e->getMessage(), ENT_QUOTES, "UTF-8") . " on line <strong>" .
 				$e->getLine() . "</strong> in <strong>" . $e->getFile() .
 				"</strong>";
 		}
@@ -152,13 +152,13 @@ class Dispatcher extends Controller {
 				exit();
 			}
 			elseif (Configure::get("System.debug")) {
-				$error_message = $e->getMessage() . " on line <strong>" .
+				$error_message = htmlentities($e->getMessage(), ENT_QUOTES, "UTF-8") . " on line <strong>" .
 					$e->getLine() . "</strong> in <strong>" . $e->getFile() .
 					"</strong>\n" . "<br /><br /><strong>Printing Stack Trace:</strong><br /><code>" .
 					nl2br($e->getTraceAsString()) . "</code>";
 			}
 			elseif (error_reporting() !== 0)
-				$error_message = $e->getMessage();
+				$error_message = htmlentities($e->getMessage(), ENT_QUOTES, "UTF-8");
 		}
 		
 		try {
