@@ -130,6 +130,7 @@ class Record extends Model {
 	 *
 	 * @param string $table The name of the table to create
 	 * @param boolean $if_not_exists If true will create the table IFF the table does not exist
+	 * @param boolean $temp If true will create a temporary table that is destroyed once the database connection is ended
 	 */
 	public function create($table, $if_not_exists=false, $temp=false) {
 		$this->type = "create" . ($if_not_exists ? "_if_not_exists" : "");
@@ -171,6 +172,7 @@ class Record extends Model {
 	 *
 	 * @param string $table The name of the table to create
 	 * @param boolean $if_exists If true will drop the table only if it exists
+	 * @param boolean $temp If true denotes the table as a temporary one instead of permenant
 	 */
 	public function drop($table, $if_exists=false, $temp=false) {
 		$this->temp_table = $temp;
