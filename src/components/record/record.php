@@ -130,9 +130,11 @@ class Record extends Model {
 	 *
 	 * @param string $table The name of the table to create
 	 * @param boolean $if_not_exists If true will create the table IFF the table does not exist
+	 * @param boolean $temp If true will create a temporary table that is destroyed once the database connection is ended
 	 */
-	public function create($table, $if_not_exists=false) {
+	public function create($table, $if_not_exists=false, $temp=false) {
 		$this->type = "create" . ($if_not_exists ? "_if_not_exists" : "");
+		$this->temp_table = $temp;
 		$this->tables[] = $table;
 		
 		$this->query($this->buildQuery(), $this->values);
@@ -170,8 +172,10 @@ class Record extends Model {
 	 *
 	 * @param string $table The name of the table to create
 	 * @param boolean $if_exists If true will drop the table only if it exists
+	 * @param boolean $temp If true denotes the table as a temporary one instead of permenant
 	 */
-	public function drop($table, $if_exists=false) {
+	public function drop($table, $if_exists=false, $temp=false) {
+		$this->temp_table = $temp;
 		$this->type = "drop" . ($if_exists ? "_if_exists" : "");
 		$this->tables[] = $table;
 		
@@ -988,7 +992,7 @@ class Record extends Model {
 				break;
 			case "create_if_not_exists":
 			case "create":
-				$sql = "CREATE TABLE " . ($this->type == "create_if_not_exists" ? "IF NOT EXISTS " : "") . $this->buildTables() . $this->buildFields() . $this->buildTableOptions();
+				$sql = "CREATE ". ($this->temp_table == true ? "TEMPORARY ": "") . "TABLE " . ($this->type == "create_if_not_exists" ? "IF NOT EXISTS " : "") . $this->buildTables() . $this->buildFields() . $this->buildTableOptions();
 				break;
 			case "alter":
 				$sql = "ALTER TABLE " . $this->buildTables() . $this->buildFields(false);
@@ -998,7 +1002,7 @@ class Record extends Model {
 				break;
 			case "drop_if_exists":
 			case "drop":
-				$sql = "DROP TABLE " . ($this->type == "drop_if_exists" ? "IF EXISTS " : "") . $this->buildTables();
+				$sql = "DROP ". ($this->temp_table == true ? "TEMPORARY " : "") . "TABLE " . ($this->type == "drop_if_exists" ? "IF EXISTS " : "") . $this->buildTables();
 				break;
 		}
 		return $sql;
