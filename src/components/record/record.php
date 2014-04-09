@@ -130,39 +130,45 @@ class Record extends Model {
 	 *
 	 * @param string $table The name of the table to create
 	 * @param boolean $if_not_exists If true will create the table IFF the table does not exist
+	 * @return PDOStatement
 	 */
 	public function create($table, $if_not_exists=false) {
 		$this->type = "create" . ($if_not_exists ? "_if_not_exists" : "");
 		$this->tables[] = $table;
 		
-		$this->query($this->buildQuery(), $this->values);
+		$statement = $this->query($this->buildQuery(), $this->values);
 		$this->reset();
+		return $statement;
 	}
 	
 	/**
 	 * Alters a table with the given name
 	 *
 	 * @param string $table The name of the table to alter
+	 * @return PDOStatement
 	 */
 	public function alter($table) {
 		$this->type = "alter";
 		$this->tables[] = $table;
 		
-		$this->query($this->buildQuery(), $this->values);
-		$this->reset();		
+		$statement = $this->query($this->buildQuery(), $this->values);
+		$this->reset();
+		return $statement;
 	}
 	
 	/**
 	 * Truncates a table with the given name
 	 * 
 	 * @param string $table The name of the table to truncate
+	 * @return PDOStatement
 	 */
 	public function truncate($table) {
 		$this->type = "truncate";
 		$this->tables[] = $table;
 		
-		$this->query($this->buildQuery());
+		$statement = $this->query($this->buildQuery());
 		$this->reset();
+		return $statement;
 	}
 	
 	/**
@@ -170,13 +176,15 @@ class Record extends Model {
 	 *
 	 * @param string $table The name of the table to create
 	 * @param boolean $if_exists If true will drop the table only if it exists
+	 * @return PDOStatement
 	 */
 	public function drop($table, $if_exists=false) {
 		$this->type = "drop" . ($if_exists ? "_if_exists" : "");
 		$this->tables[] = $table;
 		
-		$this->query($this->buildQuery());
+		$statement = $this->query($this->buildQuery());
 		$this->reset();
+		return $statement;
 	}
 	
 	/**
@@ -206,6 +214,7 @@ class Record extends Model {
 	 * @param array $values The field/value pairs to insert into this table
 	 * @param array $value_keys An array of keys reperesenting fields to accept for insertion
 	 * @see Record::set()
+	 * @return PDOStatement
 	 */
 	public function insert($table, $values=null, array $value_keys=null) {
 		$this->type = "insert";
@@ -213,8 +222,9 @@ class Record extends Model {
 		
 		$this->setFields($values, $value_keys);
 		
-		$this->query($this->buildQuery(), $this->values);
+		$statement = $this->query($this->buildQuery(), $this->values);
 		$this->reset();
+		return $statement;
 	}
 	
 	/**
@@ -223,6 +233,7 @@ class Record extends Model {
 	 * @param string $table The table to update
 	 * @param array $values The field/value pairs to update in this table
 	 * @see Record::set()
+	 * @return PDOStatement
 	 */
 	public function update($table, $values=null, array $value_keys=null) {
 		$this->type = "update";
@@ -230,8 +241,9 @@ class Record extends Model {
 		
 		$this->setFields($values, $value_keys);
 		
-		$this->query($this->buildQuery(), $this->values);
+		$statement = $this->query($this->buildQuery(), $this->values);
 		$this->reset();
+		return $statement;
 	}
 	
 	/**
@@ -239,13 +251,15 @@ class Record extends Model {
 	 *
 	 * @param array $columns The tables to delete from, null to delete from all
 	 * @param boolean $escape True to escape $columns, false otherwise
+	 * @return PDOStatement
 	 */
 	public function delete(array $columns=null, $escape=true) {
 		$this->type = "delete";
 		$this->columns[] = array("fields"=>(array)$columns, "escape"=>$escape);
 		
-		$this->query($this->buildQuery(), $this->values);
+		$statement = $this->query($this->buildQuery(), $this->values);
 		$this->reset();
+		return $statement;
 	}
 	
 	/**
