@@ -180,6 +180,23 @@ class Pagination extends Html {
 	}
 	
 	/**
+	 * Returns whether or not pagination should be shown
+	 *
+	 * @return boolean True if pagination should be shown, false otherwise
+	 */
+	public function hasPages() {
+		$pages = 0;
+		if (isset($this->settings['total_pages']) && $this->settings['total_pages'] > 0)
+			$pages = $this->settings['total_pages'];
+		else
+			$pages = ceil($this->settings['total_results'] / $this->settings['results_per_page']);
+			
+		if ($this->settings['show'] == "never" || ($pages <= 1 && $this->settings['show'] == "if_needed"))
+			return false;
+		return true;
+	}
+	
+	/**
 	 * Builds the content of the pagination and optionally outputs it.
 	 *
 	 * @return string The HTML for the pagination, void if output enabled
@@ -199,7 +216,7 @@ class Pagination extends Html {
 			$pages = ceil($this->settings['total_results'] / $this->settings['results_per_page']);
 			
 		// Ensure nav should be shown
-		if ($this->settings['show'] == "never" || ($pages <= 1 && $this->settings['show'] == "if_needed"))
+		if (!$this->hasPages())
 			return null;
 		
 		// Set the wrapper tag
