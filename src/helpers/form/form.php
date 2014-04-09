@@ -128,9 +128,13 @@ class Form extends Html {
 		
 		// Set the CSRF token if set to do so
 		if ($this->csrf_auto_create) {
+			$csrf_key = $this->csrf_token_key;
+			if ($csrf_key === null)
+				$csrf_key = $attributes['action'];
+			
 			$output = $this->return_output;
 			$this->setOutput(true);
-			$html .= $this->fieldHidden($this->csrf_token_name, $this->getCsrfToken($this->csrf_token_key));
+			$html .= $this->fieldHidden($this->csrf_token_name, $this->getCsrfToken($csrf_key));
 			$this->setOutput($output);
 		}
 		
@@ -155,8 +159,11 @@ class Form extends Html {
 	 * @param string $key The key used to generate the CSRF token
 	 * @return string The computed CSRF token
 	 */
-	public function getCsrfToken($key) {
+	public function getCsrfToken($key = null) {
 		$session_id = session_id();
+		
+		if ($key == null)
+			$key = $this->csrf_token_key;
 		
 		// Prefer computing CSRF using HMAC
 		if (function_exists("hash_hmac"))
@@ -177,8 +184,11 @@ class Form extends Html {
 	 */
 	public function verifyCsrfToken($key = null, $csrf_token = null) {
 		
-		if ($key == null)
+		if ($key == null) {
 			$key = $this->csrf_token_key;
+			if ($key === null)
+				$key = $_SERVER['REQUEST_URI'];
+		}
 		
 		if ($csrf_token === null && isset($_POST[$this->csrf_token_name]))
 			$csrf_token = $_POST[$this->csrf_token_name];
