@@ -33,7 +33,8 @@ class Session {
 			Configure::get("Session.tbl_id"),
 			Configure::get("Session.tbl_exp"),
 			Configure::get("Session.tbl_val"),
-			Configure::get("Session.session_name")
+			Configure::get("Session.session_name"),
+			Configure::get("Session.session_httponly")
 		);
 	}
 	
@@ -98,9 +99,13 @@ class Session {
 	 * @param string $path The path for this cookie, default is the current URI
 	 * @param string $domain The domain that the cookie is available to, default is the current domain
 	 * @param boolean $secure Whether or not the cookie should be transmitted over a secure connection from the client
+	 * @param boolean $httponly Whether or not the cookie should be flagged for HTTP only
 	 */
-	public function setSessionCookie($path="", $domain="", $secure=false) {
-		setcookie(Configure::get("Session.cookie_name"), $this->getSid(), time()+Configure::get("Session.cookie_ttl"), $path, $domain, $secure);
+	public function setSessionCookie($path="", $domain="", $secure=false, $httponly=false) {
+		if (version_compare(phpversion(), "5.2.0", ">="))
+			setcookie(Configure::get("Session.cookie_name"), $this->getSid(), time()+Configure::get("Session.cookie_ttl"), $path, $domain, $secure, $httponly);
+		else
+			setcookie(Configure::get("Session.cookie_name"), $this->getSid(), time()+Configure::get("Session.cookie_ttl"), $path, $domain, $secure);
 	}
 	
 	/**
@@ -109,10 +114,11 @@ class Session {
 	 * @param string $path The path for this cookie, default is the current URI
 	 * @param string $domain The domain that the cookie is available to, default is the current domain
 	 * @param boolean $secure Whether or not the cookie should be transmitted over a secure connection from the client
+	 * @param boolean $httponly Whether or not the cookie should be flagged for HTTP only
 	 */
-	public function keepAliveSessionCookie($path="", $domain="", $secure=false) {
+	public function keepAliveSessionCookie($path="", $domain="", $secure=false, $httponly=false) {
 		if (isset($_COOKIE[Configure::get("Session.cookie_name")]))
-			$this->setSessionCookie($path, $domain, $secure);
+			$this->setSessionCookie($path, $domain, $secure, $httponly);
 	}
 	
 	/**
@@ -123,7 +129,8 @@ class Session {
 	 * @param boolean $secure Whether or not the cookie should be transmitted over a secure connection from the client
 	 */
 	public function clearSessionCookie($path="", $domain="", $secure=false) {
-		setcookie(Configure::get("Session.cookie_name"), "", time()-Configure::get("Session.cookie_ttl"), $path, $domain, $secure);
+		if (isset($_COOKIE[Configure::get("Session.cookie_name")]))
+			setcookie(Configure::get("Session.cookie_name"), "", time()-Configure::get("Session.cookie_ttl"), $path, $domain, $secure);
 	}
 
 	/**
@@ -134,15 +141,24 @@ class Session {
 	 * @param string $tblid Name of the session ID field
 	 * @param string $tblexpire Name of the session expire date field
 	 * @param string $tblvalue Name of the session value field
+	 * @param boolean $httponly Whether or not the cookie should be flagged for HTTP only
 	 */
-	private function sessionSet($ttl, $tbl, $tblid, $tblexpire, $tblvalue, $session_name) {
+	private function sessionSet($ttl, $tbl, $tblid, $tblexpire, $tblvalue, $session_name, $httponly) {
 		$this->ttl = $ttl;
 		$this->tbl = $tbl;
 		$this->tblid = $tblid;
 		$this->tblexpire = $tblexpire;
 		$this->tblvalue = $tblvalue;
 
-		if (Session::$instances == 0) {		
+		if (Session::$instances == 0) {
+			
+			// Ensure session is HTTP Only
+			if (version_compare(phpversion(), "5.2.0", ">=")) {
+				$session_params = session_get_cookie_params();
+				session_set_cookie_params($session_params['lifetime'], $session_params['path'], $session_params['domain'], $session_params['secure'], $httponly);
+				unset($session_params);
+			}
+			
 			session_name($session_name);
 			
 			session_set_save_handler(
@@ -165,7 +181,7 @@ class Session {
 			elseif (isset($_COOKIE[Configure::get("Session.cookie_name")]) && isset($_COOKIE[session_name()]) && $_COOKIE[Configure::get("Session.cookie_name")] == $_COOKIE[session_name()]) {
 				$this->ttl = Configure::get("Session.cookie_ttl");	
 			}
-		
+			
 			// Start the session
 			session_start();
 		}
