@@ -41,7 +41,7 @@ final class Configure {
 	 * @return boolean true if $name was set, false otherwise
 	 */
 	public static function exists($name) {
-		if (isset(self::$config[$name]))
+		if (array_key_exists($name, self::$config))
 			return true;
 		return false;
 	}

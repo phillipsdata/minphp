@@ -26,7 +26,7 @@ final class Cache {
 	 * Removes the given cache file from the cache
 	 *
 	 * @param string $name The name of the cache file to remove (note: the original file name, not the cached name of the file)
-	 * @param string $path The patch within CACHEDIR to clear a given file from
+	 * @param string $path The path within CACHEDIR to clear a given file from
 	 * @return boolean True if removed, false if no such file exists
 	 * @see Cache::cacheName()
 	 */
