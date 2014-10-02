@@ -1,0 +1,4 @@
+1. <?php echo $key;?>-
+2. <?php echo implode(",", $var1);?>-
+3. <?php echo $var2;?>-
+4. <?php echo (isset($partial) ? $partial : "");?>-
