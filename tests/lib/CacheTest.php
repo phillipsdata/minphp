@@ -40,6 +40,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Cache::clearCache
+     * @covers Cache::cacheName
      */
     public function testClearCache()
     {
@@ -57,6 +58,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Cache::writeCache
+     * @covers Cache::cacheName
      */
     public function testWriteCache()
     {
@@ -76,7 +78,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Cache::fetchCache
-     * @todo   Implement testFetchCache().
+     * @covers Cache::cacheName
      */
     public function testFetchCache()
     {

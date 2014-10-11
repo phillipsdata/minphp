@@ -51,7 +51,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
     public function testSetDefaultView()
     {
         $path = "the/path/to/";
-		$this->view->setDefaultView($path);
+        $this->view->setDefaultView($path);
         $this->assertEquals($path, $this->view->default_view_path);
         $this->assertEquals($path, $this->view->view_path);
     }

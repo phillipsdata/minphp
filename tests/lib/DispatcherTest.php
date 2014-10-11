@@ -7,7 +7,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     /**
      * @var Dispatcher
      */
-    protected $object;
+    protected $dispatcher;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -15,7 +15,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Dispatcher;
+        $this->dispatcher = new Dispatcher();
     }
 
     /**
@@ -28,13 +28,29 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Dispatcher::dispatchCli
-     * @todo   Implement testDispatchCli().
+     * @dataProvider dispatchCliProvider
      */
-    public function testDispatchCli()
+    public function testDispatchCli(array $args, $expected)
     {
-        // Remove the following lines when you implement this test.
+        /* Uncomment this block when Dispatcher::DispatchCli is no longer static
+        $dispatcher = $this->getMock("Dispatcher", array("dispatch"));
+        $dispatcher->expects($this->once())
+            ->method("dispatch")
+            ->with($expected, true);
+        
+        $dispatcher->dispatchCli($args);
+        */
+        // But for now...
         $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+            'Can not test static Dispatcher::DispatchCli.'
+        );
+    }
+    
+    public function dispatchCliProvider()
+    {
+        return array(
+            array(array("index.php", "a", "b", "c"), "a/b/c/"),
+            array(array("index.php", "-a", "--b", "c"), "-a/--b/c/")
         );
     }
 
@@ -52,25 +68,57 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Dispatcher::raiseError
-     * @todo   Implement testRaiseError().
+     * @dataProvider raiseErrorProvider
      */
-    public function testRaiseError()
+    public function testRaiseError($e, $type)
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        switch ($type) {
+            case "output":
+                $this->expectOutputRegex("//i", $e->getMessage());
+                Dispatcher::raiseError($e);
+                break;
+            case "header":
+                /*
+                Dispatcher::raiseError() must be refactored to test with mocks
+                Configure::set("System.404_forwarding", true);
+                
+                Dispatcher::raiseError($e);
+                $this->assertTrue(headers_sent());
+                */
+                break;
+            case "exception":
+                $exception = null;
+                Configure::set("System.error_view", "nonexistentview");
+                
+                try {
+                    Dispatcher::raiseError($e);
+                }
+                catch (Exception $thrown) {
+                    $exception = $thrown;
+                }
+                
+                $this->assertSame($e, $exception);
+                break;
+        }
+    }
+    
+    public function raiseErrorProvider() {
+        return array(
+            array(new UnknownException("test error", 1, null, null, 0), "output"),
+            array(new Exception("404", 404), "header"),
+            array(new Exception("error"), "exception"),
         );
     }
 
     /**
      * @covers Dispatcher::stripSlashes
-     * @todo   Implement testStripSlashes().
      */
     public function testStripSlashes()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $str = "I'm a clean string.";
+        $escaped = addslashes($str);
+        
+        Dispatcher::stripSlashes($escaped);
+        $this->assertEquals($str, $escaped);
     }
 }
