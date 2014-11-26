@@ -464,7 +464,7 @@ class Input {
 			$this->replaceLinkedParams($rule_set['rule'], $path);
 			
 			// Call the rule given, which may be a callback or a method within the scope of this class
-			if (!is_array($method)) {
+			if (is_string($method)) {
 				// If the method doesn't exist in this class, assume it is a global PHP function
 				if (method_exists($this, $method))
 					$method = array($this, $method);
