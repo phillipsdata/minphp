@@ -7,7 +7,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
     /**
      * @var Controller
      */
-    protected $object;
+    protected $controller;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -15,7 +15,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Controller;
+        $this->controller = new Controller;
     }
 
     /**
@@ -28,37 +28,25 @@ class ControllerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Controller::index
-     * @todo   Implement testIndex().
      */
     public function testIndex()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertNull($this->controller->index());
     }
 
     /**
      * @covers Controller::preAction
-     * @todo   Implement testPreAction().
      */
     public function testPreAction()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertNull($this->controller->preAction());
     }
 
     /**
      * @covers Controller::postAction
-     * @todo   Implement testPostAction().
      */
     public function testPostAction()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertNull($this->controller->postAction());
     }
 }

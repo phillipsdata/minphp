@@ -23,26 +23,40 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Router::route
-     * @todo   Implement testRoute().
+     * @dataProvider routeProvider
+     * @expectedException Exception
      */
-    public function testRoute()
+    public function testRoute($orig_uri, $mapped_uri)
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        Router::route($orig_uri, $mapped_uri);
+    }
+    
+    /**
+     * Data provider for RouterTest::testRoute
+     */
+    public function routeProvider()
+    {
+        return array(
+            array("main/", ""),
+            array("", ".*")
         );
     }
 
     /**
      * @covers Router::match
-     * @todo   Implement testMatch().
+     * @covers Router::route
      */
     public function testMatch()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $uri = "a/b/c";
+        
+        // No match
+        $this->assertEquals($uri, Router::match($uri));
+        
+        // Match
+        Router::route($uri, "[a-z]/[a-z]/[a-z]");
+        $this->assertEquals("[a-z]/[a-z]/[a-z]", Router::match($uri));
+        
     }
 
     /**
