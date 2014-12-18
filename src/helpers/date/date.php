@@ -55,10 +55,12 @@ class Date {
 	 *
 	 * @param string $from The timezone to convert from
 	 * @param string $to The timezone to convert to
+	 * @return this
 	 */
 	public function setTimezone($from=null, $to=null) {
 		$this->timezone_from = $from;
 		$this->timezone_to = $to;
+		return $this;
 	}
 	
 	/**
@@ -70,9 +72,11 @@ class Date {
 	 * 	-month A month and year date
 	 * 	-year A year date only
 	 * 	-date_time A date time
+	 * @return this
 	 */
 	public function setFormats(array $formats=null) {
 		$this->formats = array_merge($this->formats, (array)$formats);
+		return $this;
 	}
 	
 	/**
