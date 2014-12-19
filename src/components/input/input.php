@@ -415,7 +415,7 @@ class Input {
 					if ($index == "" && array_key_exists($blank, $numeric_paths))
 						$index = $numeric_paths[$blank++];
 
-					if (!isset($data_set[$index]))
+					if (!array_key_exists($index, $data_set))
 						break;
 					$data_set =& $data_set[$index];
 				}
