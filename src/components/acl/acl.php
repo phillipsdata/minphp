@@ -176,8 +176,8 @@ class Acl {
 	 */
 	public function removeAro($alias) {
 		// Remove the record from the ARO and ACL
-		$this->Record->from("acl_aro")->from("acl_acl")->where("acl_acl.aro_id", "=", "acl_aro.id", false)->
-			where("acl_aro.alias", "=", $alias)->delete();
+		$this->Record->from("acl_aro")->leftJoin("acl_acl", "acl_acl.aro_id", "=", "acl_aro.id", false)->
+			where("acl_aro.alias", "=", $alias)->delete(array("acl_aro.*", "acl_acl.*"));
 	}
 	
 	/**
@@ -199,8 +199,8 @@ class Acl {
 	 */
 	public function removeAco($alias) {
 		// Remove the record from the ACO and ACL
-		$this->Record->from("acl_aco")->from("acl_acl")->where("acl_acl.aco_id", "=", "acl_aco.id", false)->
-			where("acl_aco.alias", "=", $alias)->delete();
+		$this->Record->from("acl_aco")->leftJoin("acl_acl", "acl_acl.aco_id", "=", "acl_aco.id", false)->
+			where("acl_aco.alias", "=", $alias)->delete(array("acl_aco.*", "acl_acl.*"));
 	}
 	
 	/**
