@@ -36,6 +36,13 @@ class CacheTest extends PHPUnit_Framework_TestCase
         
         Cache::emptyCache();
         $this->assertFileNotExists($dir . "testfile");
+        
+        mkdir($dir . "sub/path", 0777, true);
+        file_put_contents($dir . "sub/path/testfile", "CacheTest::testEmptyCache");
+        $this->assertFileExists($dir . "sub/path/testfile");
+        Cache::emptyCache("sub/path/");
+        $this->assertFileNotExists($dir . "sub/path/testfile");
+        rmdir($dir . "sub/path");
     }
 
     /**

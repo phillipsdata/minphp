@@ -17,8 +17,8 @@ final class Cache {
 			return;
 
 		while ($item = @readdir($dir)) {
-			if (is_file(CACHEDIR . $item))
-				@unlink(CACHEDIR . $item);
+			if (is_file(CACHEDIR . $path . $item))
+				@unlink(CACHEDIR . $path . $item);
 		}
 	}
 	
