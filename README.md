@@ -1,5 +1,7 @@
 # minPHP #
 
+[![Build Status](https://travis-ci.org/phillipsdata/minphp.svg)](https://travis-ci.org/phillipsdata/minphp)
+
 minPHP is an extremely lightweight MVC framework for PHP application development.
 
 ## Requirements ##
