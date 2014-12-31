@@ -61,38 +61,29 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Router::escape
-     * @todo   Implement testEscape().
      */
     public function testEscape()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertEquals("\/a\/b\/c", Router::escape("/a/b/c"));
+        $this->assertEquals("\/a\/b\/c\/", Router::escape("/a/b/c/"));
     }
 
     /**
      * @covers Router::unescape
-     * @todo   Implement testUnescape().
      */
     public function testUnescape()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertEquals("/a/b/c", Router::unescape("\/a\/b\/c"));
+        $this->assertEquals("/a/b/c/", Router::unescape("\/a\/b\/c\/"));
     }
 
     /**
      * @covers Router::makeURI
-     * @todo   Implement testMakeURI().
      */
     public function testMakeURI()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertEquals("/a/b/c/", Router::makeURI("/a/b/c/"));
+        $this->assertEquals("/a/b/c/", Router::makeURI("\\a\\b\\c\\"));
     }
 
     /**
