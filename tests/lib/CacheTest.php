@@ -11,6 +11,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        if (!is_dir(CACHEDIR))
+            mkdir(CACHEDIR, 0777, true);
     }
 
     /**
@@ -43,6 +45,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
         Cache::emptyCache("sub/path/");
         $this->assertFileNotExists($dir . "sub/path/testfile");
         rmdir($dir . "sub/path");
+        rmdir($dir . "sub");
     }
 
     /**
