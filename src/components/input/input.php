@@ -138,7 +138,7 @@ class Input {
 	 * @return boolean True when the string passes the regex, false otherwise
 	 */
 	public static function matches($str, $regex) {
-		return preg_match($regex, $str);
+		return (boolean)preg_match($regex, $str);
 	}
 	
 	/**
