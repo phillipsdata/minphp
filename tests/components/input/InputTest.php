@@ -195,11 +195,30 @@ class InputTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * @covers Input::setErrors
+     * @covers Input::errors
+     */
+    public function testSetErrors()
+    {
+        $errors = array(
+            'key' => array(
+                'type' => "Error Message"
+            )
+        );
+        $this->Input->setErrors($errors);
+        $this->assertEquals($errors, $this->Input->errors());
+    }
+    
+    /**
      * @covers Input::setRules
      * @covers Input::validates
+     * @covers Input::pathSet
      * @covers Input::clearLeaves
      * @covers Input::array_walk_recursive
      * @covers Input::validateRule
+     * @covers Input::formatData
+     * @covers Input::replaceLinkedParams
+     * @covers Input::processValidation
      * @dataProvider inputPreFormatProvider
      */
     public function testPreFormat($rules, $data, $formatted_data)
@@ -217,9 +236,13 @@ class InputTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Input::setRules
      * @covers Input::validates
+     * @covers Input::pathSet
      * @covers Input::clearLeaves
      * @covers Input::array_walk_recursive
      * @covers Input::validateRule
+     * @covers Input::formatData
+     * @covers Input::replaceLinkedParams
+     * @covers Input::processValidation
      * @dataProvider inputPostFormatProvider
      */    
     public function testPostFormat($rules, $data, $formatted_data)
@@ -237,6 +260,13 @@ class InputTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Input::setRules
      * @covers Input::validates
+     * @covers Input::pathSet
+     * @covers Input::clearLeaves
+     * @covers Input::array_walk_recursive
+     * @covers Input::validateRule
+     * @covers Input::formatData
+     * @covers Input::replaceLinkedParams
+     * @covers Input::processValidation
      * @dataProvider inputValidationProvider
      */
     public function testValidation($rules, $data)
@@ -264,34 +294,34 @@ class InputTest extends PHPUnit_Framework_TestCase
         
         $rule_sets = array(
             array(
-                'name'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'negate'=>true,
-                        $action=>"strtolower"
+                'name' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'negate' => true,
+                        $action => "strtolower"
                     )
                 ),
-                'company'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'negate'=>true,
-                        $action=>"strtoupper"
+                'company' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'negate' => true,
+                        $action => "strtoupper"
                     )
                 )
             ),
             array(
-                'name[]'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'negate'=>true,
-                        $action=>"strtolower"
+                'name[]' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'negate' => true,
+                        $action => "strtolower"
                     )
                 ),
-                'company[]'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'negate'=>true,
-                        $action=>"strtoupper"
+                'company[]' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'negate' => true,
+                        $action => "strtoupper"
                     )
                 )
             )
@@ -299,15 +329,15 @@ class InputTest extends PHPUnit_Framework_TestCase
         
         $data_sets = array(
             array(
-                'name'=>"Person Name",
-                'company'=>"Company Name"
+                'name' => "Person Name",
+                'company' => "Company Name"
             ),
             array(
-                'name'=>array(
+                'name' => array(
                     'Person Name 1',
                     'Person Name 2'
                 ),
-                'company'=>array(
+                'company' => array(
                     'Company Name 1',
                     'Company Name 2'
                 )
@@ -339,80 +369,83 @@ class InputTest extends PHPUnit_Framework_TestCase
         $rule_sets = array(
             // scalar
             array(
-                'name'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'negate'=>true,
-                        'message'=>"name can not be empty"
+                'name' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'negate' => true,
+                        'message' => "name can not be empty"
                     )
                 ),
                 'company'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'message'=>"company must be empty"
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'message' => "company must be empty"
                     )
                 )
             ),
             // array
             array(
-                'name[]'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'negate'=>true,
-                        'message'=>"name can not be empty"
+                'name[]' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'negate' => true,
+                        'message' => "name can not be empty"
                     )
                 ),
-                'company[]'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'message'=>"company must be empty"
+                'company[]' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'message' => "company must be empty"
                     )
+                ),
+                'nonexistent[]'  =>  array(
+                    
                 )
             ),
             // multi-dimensional array
             array(
-                'data[name][]'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'negate'=>true,
-                        'message'=>"name can not be empty"
+                'data[name][]' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'negate' => true,
+                        'message' => "name can not be empty"
                     )
                 ),
-                'data[company][]'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'message'=>"company must be empty"
+                'data[company][]' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'message' => "company must be empty"
                     )
                 )
             ),
             // alternative array
             array(
-                'name[1]'=>array(
-                    'format'=>array(
-                        'rule'=>array(array($this, "callBackTestMethod")),
-                        'message'=>"name[1] can not be empty"
+                'name[1]' => array(
+                    'format' => array(
+                        'rule' => array(array($this, "callBackTestMethod")),
+                        'message' => "name[1] can not be empty"
                     )
                 ),
-                'name[2]'=>array(
-                    'format'=>array(
-                        'rule'=>array(array($this, "callBackTestMethod")),
-                        'message'=>"name[2] must be empty"
+                'name[2]' => array(
+                    'format' => array(
+                        'rule' => array(array($this, "callBackTestMethod")),
+                        'message' => "name[2] must be empty"
                     )
                 )
             ),
             // alternative multi-dimensional array
             array(
-                'data[][name]'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'negate'=>"true",
-                        'message'=>"name can not be empty"
+                'data[][name]' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'negate' => "true",
+                        'message' => "name can not be empty"
                     )
                 ),
-                'data[][company]'=>array(
-                    'format'=>array(
-                        'rule'=>"isEmpty",
-                        'message'=>"company must be empty"
+                'data[][company]' => array(
+                    'format' => array(
+                        'rule' => "isEmpty",
+                        'message' => "company must be empty"
                     )
                 )
             )
@@ -420,29 +453,29 @@ class InputTest extends PHPUnit_Framework_TestCase
         
         $data_sets = array(
             array(
-                'name'=>"Firstname Lastname",
-                'company'=>""
+                'name' => "Firstname Lastname",
+                'company' => ""
             ),
             array(
-                'name'=>array(
+                'name' => array(
                     "Firstname Lastname",
                     "Secondname Lastname",
                     "Thirdname Lastname"
                 ),
-                'company'=>array(
+                'company' => array(
                     "",
                     "",
                     ""
                 )
             ),
             array(
-                'data'=>array(
-                    'name'=>array(
+                'data' => array(
+                    'name' => array(
                         "Firstname Lastname",
                         "Secondname Lastname",
                         "Thirdname Lastname"
                     ),
-                    'company'=>array(
+                    'company' => array(
                         "",
                         "",
                         ""
@@ -450,24 +483,24 @@ class InputTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                'name'=>array(
-                    '1'=>"Firstname Lastname",
-                    '2'=>"Secondname Lastname"
+                'name' => array(
+                    '1' => "Firstname Lastname",
+                    '2' => "Secondname Lastname"
                 )
             ),
             array(
-                'data'=>array(
+                'data' => array(
                     array(
-                        'name'=>"Firstname Lastname",
-                        'company'=>""
+                        'name' => "Firstname Lastname",
+                        'company' => ""
                     ),
                     array(
-                        'name'=>"Secondname Lastname",
-                        'company'=>""
+                        'name' => "Secondname Lastname",
+                        'company' => ""
                     ),
                     array(
-                        'name'=>"Thirdname Lastname",
-                        'company'=>""
+                        'name' => "Thirdname Lastname",
+                        'company' => ""
                     )
                 )
             )
