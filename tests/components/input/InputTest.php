@@ -269,13 +269,13 @@ class InputTest extends PHPUnit_Framework_TestCase
      * @covers Input::processValidation
      * @dataProvider inputValidationProvider
      */
-    public function testValidation($rules, $data)
+    public function testValidation($rules, $data, $result)
     {
         // Set the rules to test
         $this->Input->setRules($rules);
         
         // Attempt to validate $data against $rules
-        $this->assertEquals(true, $this->Input->validates($data));
+        $this->assertEquals($result, $this->Input->validates($data));
 
     }
 
@@ -289,7 +289,7 @@ class InputTest extends PHPUnit_Framework_TestCase
         return $this->getInputDataFormatting("post_format");
     }
     
-    private function getInputDataFormatting($action)
+    protected function getInputDataFormatting($action)
     {
         
         $rule_sets = array(
@@ -321,7 +321,7 @@ class InputTest extends PHPUnit_Framework_TestCase
                     'format' => array(
                         'rule' => "isEmpty",
                         'negate' => true,
-                        $action => "strtoupper"
+                        $action => array("strtoupper")
                     )
                 )
             )
@@ -448,6 +448,29 @@ class InputTest extends PHPUnit_Framework_TestCase
                         'message' => "company must be empty"
                     )
                 )
+            ),
+            // failure data set
+            array(
+                'name' => array(
+                    'empty' => array(
+                        'rule' => "isEmpty",
+                        'message' => "name can not be empty",
+                        'negate' => true,
+                        'last' => true
+                    ),
+                    'too_short' => array(
+                        'rule' => array("minLength", 5),
+                        'message' => "name must be at least 5 chars"
+                    )
+                ),
+                'company' => array(
+                    'empty' => array(
+                        'rule' => "isEmpty",
+                        'message' => "company can not be empty",
+                        'negate' => true,
+                        'final' => true
+                    )
+                )
             )
         );
         
@@ -503,12 +526,23 @@ class InputTest extends PHPUnit_Framework_TestCase
                         'company' => ""
                     )
                 )
+            ),
+            array(
+                'name' => "Name"
             )
+        );
+        $result_sets = array(
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
         );
         
         $data = array();
         foreach ($rule_sets as $i => $set) {
-            $data[] = array($rule_sets[$i], $data_sets[$i]);
+            $data[] = array($rule_sets[$i], $data_sets[$i], $result_sets[$i]);
         }
         
         return $data;
