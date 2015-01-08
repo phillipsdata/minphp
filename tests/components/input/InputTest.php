@@ -20,6 +20,7 @@ class InputTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->Input->isEmail("", false));
         $this->assertFalse($this->Input->isEmail("a@b", false));
         $this->assertTrue($this->Input->isEmail("someone@google.com"));
+        $this->assertFalse($this->Input->isEmail("someone@mnbvcxzljhgfdsapoiuytrewq.tld", true));
     }
     
     /**
@@ -277,6 +278,39 @@ class InputTest extends PHPUnit_Framework_TestCase
         // Attempt to validate $data against $rules
         $this->assertEquals($result, $this->Input->validates($data));
 
+    }
+    
+    /**
+     * @covers Input::setRules
+     * @covers Input::validates
+     * @covers Input::replaceLinkedParams
+     */
+    public function testValidationLinkedParams()
+    {
+        $rules = array(
+            'items[][name]' => array(
+                'valid' => array(
+                    'rule' => array(
+                        function($name, $price) {
+                            return $name !== null && is_numeric($price);
+                        },
+                        array('_linked' => "items[][price]")
+                    )
+                )
+            )
+        );
+        $data = array(
+            'items' => array(
+                array('name' => "Item 1", 'price' => 1.50),
+                array('name' => "Item 2", 'price' => 2.75),
+            )
+        );
+        
+        $this->Input->setRules($rules);
+        $this->assertTrue($this->Input->validates($data));
+        
+        unset($data['items'][1]['price']);
+        $this->assertFalse($this->Input->validates($data));
     }
 
     public function inputPreFormatProvider()
