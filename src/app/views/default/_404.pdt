@@ -1,9 +1,12 @@
-
-
-	<div class="box">
-		<h3>404</h3>
-		
-		<div class="contents">
-			<p>Sorry, the page you are trying to access does not exist or may have moved.</p>
-		</div>
-	</div>
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h2>404</h2>
+            </div>
+            
+            <div class="alert alert-warning" role="alert">
+                <p>Sorry, the page you are trying to access does not exist or may have moved.</p>
+            </div>
+        </div>
+    </div>

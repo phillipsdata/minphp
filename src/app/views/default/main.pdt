@@ -1,20 +1,26 @@
 
-	<div class="box">
-		<h3>Congratulations! <span class="brand">minPHP</span> was sucessfully installed</h3>
-		
-		<div class="contents">
-			<p>If this is your first trip around the block, why don't we hold hands?</p>
-	
-			<br />
-			<p>The <strong>controller</strong> for this page is located in:</p>	
-			<code>/app/controllers/main.php</code>
-	
-			<p>The <strong>page view</strong> for this page is located in:</p>	
-			<code>/app/views/default/main.pdt</code>
-			
-			<p>The <strong>structure view</strong> for this page is located in:</p>	
-			<code>/app/views/default/structure.pdt</code>
-			
-			<p>For more help, check out the <a href="http://www.minphp.org/documentation">documentation</a>.</p>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h2>It Works! <small><strong>minPHP</strong> was sucessfully installed</small></h2>
+            </div>
+            <h4>If this is your first trip around the block, why don't we hold hands?</h4>
+    
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h5 class="list-group-item-heading">The <strong>controller</strong> for this page is located in:</h5>
+                    <code>/app/controllers/main.php</code>
+                </li>
+                <li class="list-group-item">
+                    <h5 class="list-group-item-heading">The <strong>page view</strong> for this page is located in:</h5>
+                    <code>/app/views/default/main.pdt</code>
+                </li>
+                <li class="list-group-item">
+                    <h5 class="list-group-item-heading">The <strong>structure view</strong> for this page is located in:</h5>
+                    <code>/app/views/default/structure.pdt</code>
+                </li>
+            </ul>
+            
+            <p>For more help, check out the <a href="http://www.minphp.org/documentation">documentation</a>.</p>
+        </div>
+    </div>

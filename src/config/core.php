@@ -12,7 +12,7 @@
 // Enabled debugging (true/false)
 Configure::set("System.debug", true);
 // Enable benchmarking to output total execution time
-Configure::set("System.benchmark", true);
+Configure::set("System.benchmark", false);
 // The view to use as the default structure. To overwrite use
 // $this->structure = 'viewfile' in your controller
 Configure::set("System.default_structure", "structure");
