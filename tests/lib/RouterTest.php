@@ -88,26 +88,19 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Router::parseURI
-     * @todo   Implement testParseURI().
      */
     public function testParseURI()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertEquals(array("a"), Router::parseURI("a"));
+        $this->assertEquals(array("a", "b", "c", "", "?w=x&y=z"), Router::parseURI("a/b/c/?w=x&y=z"));
     }
 
     /**
      * @covers Router::filterURI
-     * @todo   Implement testFilterURI().
      */
     public function testFilterURI()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertNotContains(WEBDIR, Router::filterURI(WEBDIR));
     }
 
     /**

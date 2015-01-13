@@ -22,18 +22,6 @@ class UnknownExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers UnknownException::getSeverity
-     * @todo   Implement testGetSeverity().
-     */
-    public function testGetSeverity()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @covers UnknownException::setErrorHandler
      * @todo   Implement testSetErrorHandler().
      */
@@ -47,14 +35,14 @@ class UnknownExceptionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers UnknownException::setExceptionHandler
-     * @todo   Implement testSetExceptionHandler().
      */
     public function testSetExceptionHandler()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $message = "Testing Error";
+        $e = new Exception($message);
+        $this->expectOutputRegex("/" . $message . "/");
+        
+        UnknownException::setExceptionHandler($e);
     }
 
     /**
