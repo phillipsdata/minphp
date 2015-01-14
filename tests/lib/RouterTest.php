@@ -105,25 +105,43 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Router::isCallable
-     * @todo   Implement testIsCallable().
      */
     public function testIsCallable()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $controller = $this->getMockBuilder("Controller")
+            ->getMock();
+            
+        $this->assertTrue(Router::isCallable($controller, "index"));
+        $this->assertFalse(Router::isCallable($controller, "preAction"));
+        $this->assertFalse(Router::isCallable($controller, "nonexistentMethod"));
+        $this->assertFalse(Router::isCallable(null, null));
     }
 
     /**
      * @covers Router::routesTo
-     * @todo   Implement testRoutesTo().
+     * @dataProvider routesToProvider
      */
-    public function testRoutesTo()
+    public function testRoutesTo($uri)
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $result = Router::routesTo($uri);
+        
+        $this->assertArrayHasKey("plugin", $result);
+        $this->assertArrayHasKey("controller", $result);
+        $this->assertArrayHasKey("action", $result);
+        $this->assertArrayHasKey("get", $result);
+        $this->assertArrayHasKey("uri", $result);
+        $this->assertArrayHasKey("uri_str", $result);
+        $this->assertEquals(rtrim($uri, "/") . "/", $result['uri_str']);
+    }
+    
+    /**
+     * Data provider for testRoutesTo
+     */
+    public function routesToProvider()
+    {
+        return array(
+            array("controller/action/get1/get2"),
+            array("controller/action/key1:value1/key2:value2")
         );
     }
 }
