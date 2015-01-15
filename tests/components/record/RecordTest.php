@@ -39,6 +39,81 @@ class RecordTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * @covers Record::create
+     * @covers Record::buildQuery
+     * @covers Record::buildTables
+     * @covers Record::buildFields
+     * @covers Record::buildTableOptions
+     */
+    public function testCreate()
+    {
+        $pdo_statement = $this->getMockBuilder("PDOStatement")
+            ->getMock();
+            
+        $query = "CREATE TABLE `table_name` (`id` int(10) UNSIGNED  NOT NULL AUTO_INCREMENT, `field1` varchar(32) NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+        $record = $this->getQueryMock($query, $params = array(), $pdo_statement);
+        $record
+            ->setField("id", array('type' => "int", 'size' => 10, 'unsigned' => true, 'auto_increment' => true))
+            ->setField("field1", array('type' => "varchar", 'size' => 32, 'default' => null, 'is_null' => true))
+            ->setKey(array("id"), "primary")
+            ->create("table_name");
+    }
+    
+    /**
+     * @covers Record::alter
+     * @covers Record::buildQuery
+     * @covers Record::buildTables
+     * @covers Record::buildFields
+     */
+    public function testAlter()
+    {
+        $pdo_statement = $this->getMockBuilder("PDOStatement")
+            ->getMock();
+            
+        $query = "ALTER TABLE `table_name` DROP `id`, DROP `field1`, DROP PRIMARY KEY ";
+        $record = $this->getQueryMock($query, $params = array(), $pdo_statement);
+        $record
+            ->setField("id", null, false)
+            ->setField("field1", null, false)
+            ->setKey(array("id"), "primary", null, false)
+            ->alter("table_name");
+    }
+    
+    /**
+     * @covers Record::truncate
+     * @covers Record::buildQuery
+     * @covers Record::buildTables
+     */
+    public function testTruncate()
+    {
+        $pdo_statement = $this->getMockBuilder("PDOStatement")
+            ->getMock();
+            
+        $query = "TRUNCATE TABLE `table_name`";
+        $record = $this->getQueryMock($query, null, $pdo_statement);
+        $record->truncate("table_name");
+    }
+    
+    /**
+     * @covers Record::drop
+     * @covers Record::buildQuery
+     * @covers Record::buildTables
+     */
+    public function testDrop()
+    {
+        $pdo_statement = $this->getMockBuilder("PDOStatement")
+            ->getMock();
+            
+        $query = "DROP TABLE `table_name`";
+        $record = $this->getQueryMock($query, null, $pdo_statement);
+        $record->drop("table_name");
+        
+        $query = "DROP TABLE IF EXISTS `table_name`";
+        $record = $this->getQueryMock($query, null, $pdo_statement);
+        $record->drop("table_name", true);
+    }
+    
+    /**
      * @covers Record::select
      */
     public function testSelect()
@@ -274,5 +349,39 @@ class RecordTest extends PHPUnit_Framework_TestCase
     {
 
         $this->assertInstanceOf("Record", $this->Record->set("field", "value"));
+    }
+    
+    
+    /**
+     * Generates a Record mock with Record::query and Record::reset mocked
+     *
+     * @param string $query The SQL before substitution
+     * @param array $params The parameters to substitute
+     * @return object
+     */
+    protected function getQueryMock($query, $params = array(), $return = null)
+    {
+        $record = $this->getMockBuilder("Record")
+            ->disableOriginalConstructor()
+            ->setMethods(array("query", "reset"))
+            ->getMock();
+        
+        if ($params !== null) {
+            $record->expects($this->once())
+                ->method("query")
+                ->with($this->equalTo($query),
+                    $this->equalTo($params))
+                ->will($this->returnValue($return));
+        } else {
+            $record->expects($this->once())
+                ->method("query")
+                ->with($this->equalTo($query))
+                ->will($this->returnValue($return));
+        }
+
+        $record->expects($this->once())
+            ->method("reset");
+            
+        return $record;
     }
 }
