@@ -114,6 +114,40 @@ class RecordTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * @covers Record::set
+     * @covers Record::buildQuery
+     * @covers Record::buildTables
+     */
+    public function testSet()
+    {
+        $this->assertInstanceOf("Record", $this->Record->set("field", "value"));
+        $this->assertInstanceOf("Record", $this->Record->set("field", $this->Record->keywordValue("DEFAULT")));
+    }
+    
+    
+    /**
+     * @covers Record::insert
+     * @covers Record::setFields
+     * @covers Record::buildQuery
+     * @covers Record::buildValues
+     * @covers Record::escapeField
+     * @covers Record::escapeFieldMatches
+     * @covers Record::escapeTableField
+     */
+    public function testInsert()
+    {
+        $pdo_statement = $this->getMockBuilder("PDOStatement")
+            ->getMock();
+            
+        $query = "INSERT INTO `table_name` (`field1`, `field2`) VALUES (?, ?)";
+        $record = $this->getQueryMock($query, null, $pdo_statement);
+        
+        $record->set("field1", 1)
+            ->set("field2", 2)
+            ->insert("table_name");
+    }
+    
+    /**
      * @covers Record::select
      */
     public function testSelect()
@@ -293,6 +327,14 @@ class RecordTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * @covers Record::limit
+     */
+    public function testLimit()
+    {
+        $this->assertInstanceOf("Record", $this->Record->limit(30));
+    }
+    
+    /**
      * @covers Record::open
      */
     public function testOpen()
@@ -310,6 +352,20 @@ class RecordTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Record", $this->Record->open()->on("table1.field", "=", "table2.field")->close("on"));
         $this->assertInstanceOf("Record", $this->Record->open()->having("table1.field", "=", "table2.field")->close("having"));
         $this->assertInstanceOf("Record", $this->Record->open()->duplicate("table1.field", "=", "new value")->close("duplicate"));
+    }
+    
+    /**
+     * @covers Record::appendValues
+     */
+    public function testAppendValues()
+    {
+        $values = array(1, 2, 3, 'x', 'y', 'z');
+        $this->assertInstanceOf("Record", $this->Record->appendValues($values));
+        $this->assertEquals($values, $this->Record->values);
+        
+        $more_values = array('a', 'b', 'c');
+        $this->Record->appendValues($more_values);
+        $this->assertEquals(array_merge($values, $more_values), $this->Record->values);
     }
     
     /**
