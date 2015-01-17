@@ -28,9 +28,11 @@ Passing variables to views from a controller is simple:
 
 ```php
 <?php
-class Foo extends AppController {
+class Foo extends AppController
+{
 
-	public function index() {
+	public function index()
+    {
 	
 		$my_var = array(1,2,3);
 	
@@ -38,16 +40,18 @@ class Foo extends AppController {
 	}
 
 }
-?>
+
 ```
 
 You can also set multiple variables all at once:
 
 ```php
 <?php
-class Foo extends AppController {
+class Foo extends AppController
+{
 
-	public function index() {
+	public function index()
+    {
 	
 		$my_var = array(1,2,3);
 		$my_other_var = array("a","b","c");
@@ -56,7 +60,7 @@ class Foo extends AppController {
 	}
 
 }
-?>
+
 ```
 
 To set variables in the structure view use:
