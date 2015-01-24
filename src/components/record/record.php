@@ -923,34 +923,34 @@ class Record extends Model {
 	 * @return string The SQL that makes up this conditional statement
 	 */
 	private function buildConditional($field, $op, $value, $bind_value=true, $escape=true, $convert_nulls=true) {
-		$sql = ($escape ? $this->escapeField($field) : $field) . " ";
+		$sql = ($escape ? $this->escapeField($field) : $field);
 		
 		switch ($op) {
 			case "like":
-				$op = "LIKE";
+				$op = " LIKE ";
 				break;
 			case "notlike":
-				$op = "NOT LIKE";
+				$op = " NOT LIKE ";
 				break;
 			case "in":
-				$op = "IN";
+				$op = " IN ";
 				break;
 			case "notin":
-				$op = "NOT IN";
+				$op = " NOT IN ";
 				break;
 			case "exists":
-				$op = "EXISTS";
+				$op = " EXISTS ";
 				break;
 			case "notexists":
-				$op = "NOT EXISTS";
+				$op = " NOT EXISTS ";
 				break;
 		}
 		
 		if ($convert_nulls && $value === null && ($op == "<>" || $op == "!=" || $op == "=")) {
 			if ($op == "=")
-				$op = "IS NULL";
+				$op = " IS NULL";
 			else
-				$op = "IS NOT NULL";
+				$op = " IS NOT NULL";
 			$sql .= $op;
 		}	
 		else {
@@ -970,7 +970,7 @@ class Record extends Model {
 			}
 			// Value is scalar
 			else {
-				$sql .= $op . " " . ($bind_value ? "?" : ($escape ? $this->escapeField($value) : $value));
+				$sql .= $op . ($bind_value ? "?" : ($escape ? $this->escapeField($value) : $value));
 			
 				if ($bind_value)
 					$this->values[] = $value;
@@ -1326,7 +1326,6 @@ class Record extends Model {
 	private function buildValuePairs($pairs) {
 		$sql = "";
 		if (!empty($pairs)) {
-			$sql .= " ";
 			$i=0;
 			foreach ($pairs as $key => $value) {
 				$sql .= ($i > 0 ? ", " : "") . $this->escapeField($key) . "=";

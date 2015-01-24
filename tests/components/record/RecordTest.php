@@ -124,7 +124,6 @@ class RecordTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Record", $this->Record->set("field", $this->Record->keywordValue("DEFAULT")));
     }
     
-    
     /**
      * @covers Record::insert
      * @covers Record::setFields
@@ -145,6 +144,56 @@ class RecordTest extends PHPUnit_Framework_TestCase
         $record->set("field1", 1)
             ->set("field2", 2)
             ->insert("table_name");
+    }
+    
+    /**
+     * @covers Record::update
+     * @covers Record::buildQuery
+     * @covers Record::buildTables
+     * @covers Record::buildValuePairs
+     * @covers Record::buildWhere
+     * @covers Record::buildLimit
+     */
+    public function testUpdate()
+    {
+        $pdo_statement = $this->getMockBuilder("PDOStatement")
+            ->getMock();
+            
+        $query = "UPDATE `table_name` SET `field1`=?, `field2`=? WHERE `field1`=?";
+        $record = $this->getQueryMock($query, null, $pdo_statement);
+        
+        $record->set("field1", 1)
+            ->set("field2", 2)
+            ->where("field1", "=", 3)
+            ->update("table_name");
+    }
+    
+    /**
+     * @covers Record::delete
+     * @covers Record::buildQuery
+     * @covers Record::buildColumns
+     * @covers Record::buildTables
+     * @covers Record::buildWhere
+     * @covers Record::buildLimit
+     */
+    public function testDelete()
+    {
+        $pdo_statement = $this->getMockBuilder("PDOStatement")
+            ->getMock();
+            
+        $query = "DELETE  FROM `table_name` WHERE `field1`=?";
+        $record = $this->getQueryMock($query, null, $pdo_statement);
+        
+        $record->from("table_name")
+            ->where("field1", "=", 1)
+            ->delete();
+            
+        $query = "DELETE `table_name`.* FROM `table_name` INNER JOIN `other_table` ON `other_table`.`id`=`table_name`.`id`";
+        $record = $this->getQueryMock($query, null, $pdo_statement);
+        
+        $record->from("table_name")
+            ->innerJoin("other_table", "other_table.id", "=", "table_name.id", false)
+            ->delete(array("table_name.*"));
     }
     
     /**
