@@ -232,12 +232,15 @@ class Record extends Model {
 	 *
 	 * @param string $table The table to update
 	 * @param array $values The field/value pairs to update in this table
+	 * @param array $value_keys An array of keys reperesenting fields to accept for updating
 	 * @see Record::set()
 	 * @return PDOStatement
 	 */
 	public function update($table, $values=null, array $value_keys=null) {
 		$this->type = "update";
-		$this->tables[] = $table;
+		if ($table) {
+			$this->tables[] = $table;
+		}
 		
 		$this->setFields($values, $value_keys);
 		
