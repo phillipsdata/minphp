@@ -15,6 +15,60 @@ final class Loader {
 	}
 	
 	/**
+	 * Autoload classes
+	 *
+	 * @param string $class
+	 * @return boolean True if loaded, false otherwise
+	 */
+	public static function autoload($class) {
+		// Skip namespaces
+		if (strpos($class, "\\") !== false) {
+			return false;
+		}
+		
+		$paths = array(
+			LIBDIR,
+			ROOTWEBDIR . APPDIR,
+			CONTROLLERDIR,
+			MODELDIR,
+			COMPONENTDIR,
+			HELPERDIR
+		);
+		
+		$plugin = null;
+		if (($c = strpos($class, "."))) {
+			$plugin = self::fromCamelCase(substr($class, 0, $c)) . DIRECTORY_SEPARATOR;
+			$class = substr($class, $c+1);
+		}
+		
+		if ($plugin !== null) {
+			$paths = array(
+				PLUGINDIR . $plugin,
+				PLUGINDIR . $plugin . "models" . DIRECTORY_SEPARATOR,
+				PLUGINDIR . $plugin . "controllers" . DIRECTORY_SEPARATOR,
+				PLUGINDIR . $plugin . "components" . DIRECTORY_SEPARATOR,
+				PLUGINDIR . $plugin . "helpers" . DIRECTORY_SEPARATOR
+			);
+		}
+		
+		$class_file = self::fromCamelCase($class);
+		$file_name = $class_file . ".php";
+		
+		foreach ($paths as $path) {
+			if (file_exists($path . $file_name)) {
+				include $path . $file_name;
+				return true;
+			}
+			elseif (file_exists($path . $class_file . DIRECTORY_SEPARATOR . $file_name)) {
+				include $path . $class_file . DIRECTORY_SEPARATOR . $file_name;
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/**
 	 * Loads models, which may or may not exist within a plugin of the same
 	 * name. First looks in the plugin directory, if no match is found, looks
 	 * in the models directory.

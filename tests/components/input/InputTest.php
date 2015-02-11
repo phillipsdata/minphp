@@ -1,6 +1,4 @@
 <?php
-require_once "components" . DIRECTORY_SEPARATOR . "input" . DIRECTORY_SEPARATOR . "input.php";
-
 class InputTest extends PHPUnit_Framework_TestCase
 {
 

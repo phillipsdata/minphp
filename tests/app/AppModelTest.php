@@ -1,6 +1,4 @@
 <?php
-require_once SUT_PATH . "app/app_model.php";
-
 /**
  *
  */

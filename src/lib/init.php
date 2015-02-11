@@ -112,20 +112,11 @@ define("PLUGINDIR", ROOTWEBDIR . "plugins" . DS);
  */
 define("VENDORDIR", ROOTWEBDIR . "vendors" . DS);
 
+
 // Include core libraries
-include_once LIBDIR . "unknown_exception.php";
-include_once LIBDIR . "stdlib.php";
-include_once LIBDIR . "configure.php";
-include_once LIBDIR . "router.php";
 include_once LIBDIR . "loader.php";
+include_once LIBDIR . "autoload.php";
+include_once LIBDIR . "stdlib.php";
 // Include core configuration
 include_once CONFIGDIR . "core.php";
-// Include any other dependancies
-include_once LIBDIR . "language.php";
-include_once LIBDIR . "cache.php";
-// Include MVC libraries
-include_once LIBDIR . "model.php";
-include_once LIBDIR . "view.php";
-include_once LIBDIR . "controller.php";
-include_once LIBDIR . "dispatcher.php";
 ?>
