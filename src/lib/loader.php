@@ -26,14 +26,7 @@ final class Loader {
 			return false;
 		}
 		
-		$paths = array(
-			LIBDIR,
-			ROOTWEBDIR . APPDIR,
-			CONTROLLERDIR,
-			MODELDIR,
-			COMPONENTDIR,
-			HELPERDIR
-		);
+		$paths = array();
 		
 		$plugin = null;
 		if (($c = strpos($class, "."))) {
