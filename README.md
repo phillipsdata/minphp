@@ -4,9 +4,11 @@
 
 minPHP is an extremely lightweight MVC framework for PHP application development.
 
+**Caution:** This repository is for minPHP 1.0, see [minPHP 0.x](https://github.com/phillipsdata/minphp/tree/0.x) for the previous version.
+
 ## Requirements ##
 
-* PHP 5.1.3 or greater
+* PHP 5.3.0 or greater
 
 ## Getting Started ##
 
