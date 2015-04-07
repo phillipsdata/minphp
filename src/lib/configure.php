@@ -100,4 +100,3 @@ final class Configure {
 		error_reporting($level);
 	}
 }
-?>

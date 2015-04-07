@@ -31,4 +31,3 @@ set_exception_handler(array("UnknownException", "setExceptionHandler"));
  * @see UnknownException::setFatalErrorHandler()
  */
 register_shutdown_function(array("UnknownException", "setFatalErrorHandler"));
-?>

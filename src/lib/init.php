@@ -18,9 +18,11 @@
 error_reporting(-1);
 
 /**
- * Sets the version of minPHP in use.  [Major].[Minor].[Revision].[Build.RC]
+ * Sets the version of minPHP in use.  [Major].[Minor].[Revision]
+ *
+ * @deprecated since 1.0.0
  */
-define("MINPHP_VERSION", "0.11.3.20131004");
+define("MINPHP_VERSION", "1.0.0");
 
 /**
  * Sets the directory separator used throughout the application. DO NOT use this
@@ -118,4 +120,3 @@ include_once LIBDIR . "autoload.php";
 include_once LIBDIR . "stdlib.php";
 // Include core configuration
 include_once CONFIGDIR . "core.php";
-?>

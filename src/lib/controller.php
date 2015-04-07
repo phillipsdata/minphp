@@ -322,4 +322,3 @@ class Controller {
 		$this->structure->setDefaultView($path);
 	}
 }
-?>
