@@ -625,4 +625,3 @@ class Form extends Html {
 		return false;
 	}
 }
-?>

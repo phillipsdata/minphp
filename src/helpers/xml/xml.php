@@ -119,4 +119,3 @@ class Xml {
 		return $xml;
 	}
 }
-?>
