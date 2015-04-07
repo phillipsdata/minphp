@@ -292,4 +292,3 @@ class Session {
 		return $this->Record->affectedRows();
 	}
 }
-?>

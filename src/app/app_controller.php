@@ -12,4 +12,3 @@ class AppController extends Controller {
 	# (e.g. $this->loadLang("langfile", "en_us"))
 	#
 }
-?>
