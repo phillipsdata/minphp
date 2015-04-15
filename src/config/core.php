@@ -1,8 +1,6 @@
 <?php
 /**
  * Sets all core configuration settings used throughout the application
- *
- * @package minPHP
  */
 
 
