@@ -60,11 +60,20 @@ class Session {
 	 * Read Session information for the given index
 	 *
 	 * @param string $name The name of the index to read
+	 * @param boolean $persist If set data will persist, otherwise will be cleared after read
 	 * @return mixed The value stored in $name of the session, or an empty string.
 	 */
-	public function read($name) {
-		if (isset($_SESSION[$name]))
-			return $_SESSION[$name];
+	public function read($name, $persist=true) {
+		if (isset($_SESSION[$name])){
+			$val = $_SESSION[$name];
+
+			if($persist == false){
+				$this->clear($name);
+			}
+
+			return $val;
+		}
+
 		return "";
 	}
 
