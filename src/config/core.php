@@ -1,8 +1,6 @@
 <?php
 /**
  * Sets all core configuration settings used throughout the application
- *
- * @package minPHP
  */
 
 
@@ -57,5 +55,3 @@ Configure::set("Language.default", "en_us");
 // Set to true to allow keys with no definition to be output, set to false to
 // output nothing if the key is not found.
 Configure::set("Language.allow_pass_through", false);
-
-?>

@@ -69,5 +69,3 @@ class UnknownException extends ErrorException {
 		}
 	}
 }
-
-?>

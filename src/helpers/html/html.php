@@ -203,5 +203,3 @@ class Html {
 		return preg_replace($pattern, $replacement, $content);
 	}
 }
-
-?>

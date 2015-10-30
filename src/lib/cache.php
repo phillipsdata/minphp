@@ -88,4 +88,3 @@ final class Cache {
 		return CACHEDIR . $path . md5(strtolower($name)) . Configure::get("Caching.ext");
 	}
 }
-?>

@@ -1436,4 +1436,3 @@ class Record extends Model {
 		return implode(".", $parts);
 	}
 }
-?>

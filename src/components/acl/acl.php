@@ -278,4 +278,3 @@ class Acl {
 			set("action", $action)->set("permission", $permission)->insert("acl_acl");
 	}
 }
-?>

@@ -10,4 +10,3 @@ class AppModel extends Model {
 	# models that extend this class.
 	#
 }
-?>

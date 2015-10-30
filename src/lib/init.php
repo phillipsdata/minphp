@@ -18,9 +18,11 @@
 error_reporting(-1);
 
 /**
- * Sets the version of minPHP in use.  [Major].[Minor].[Revision].[Build.RC]
+ * Sets the version of minPHP in use.  [Major].[Minor].[Revision]
+ *
+ * @deprecated since 1.0.0
  */
-define("MINPHP_VERSION", "0.11.3.20131004");
+define("MINPHP_VERSION", "1.0.0");
 
 /**
  * Sets the directory separator used throughout the application. DO NOT use this
@@ -110,13 +112,11 @@ define("PLUGINDIR", ROOTWEBDIR . "plugins" . DS);
 /**
  * Absolute path to the vendors directory, where vendor libraries are stored.
  */
-define("VENDORDIR", ROOTWEBDIR . "vendors" . DS);
+define("VENDORDIR", dirname(dirname(__DIR__)) . DS . "vendor" . DS);
 
 
 // Include core libraries
-include_once LIBDIR . "loader.php";
 include_once LIBDIR . "autoload.php";
 include_once LIBDIR . "stdlib.php";
-// Include core configuration
-include_once CONFIGDIR . "core.php";
-?>
+// Load core configuration
+Configure::load("core");

@@ -589,4 +589,3 @@ class Input {
 			$data = null;
 	}
 }
-?>

@@ -390,4 +390,3 @@ class Date {
 		return $arr1;
 	}
 }
-?>

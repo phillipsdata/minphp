@@ -43,4 +43,3 @@ $end = microtime(true);
 // Display rendering time if benchmarking is enabled
 if (Configure::get("System.benchmark"))
 	echo "execution time: " . ($end-$start) . " seconds";
-?>

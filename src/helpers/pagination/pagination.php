@@ -444,4 +444,3 @@ class Pagination extends Html {
 		echo $html;
 	}	
 }
-?>

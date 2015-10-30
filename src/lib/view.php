@@ -150,4 +150,3 @@ class View extends Language {
 		return array($view_path, $view);
 	}
 }
-?>

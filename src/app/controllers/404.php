@@ -9,5 +9,3 @@
 class _404 extends AppController {
 
 }
-
-?>

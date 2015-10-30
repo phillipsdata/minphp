@@ -127,4 +127,3 @@ class Javascript extends Html {
 		return $this;
 	}
 }
-?>

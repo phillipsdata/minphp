@@ -44,4 +44,3 @@ switch ($server) {
 
 unset($default);
 unset($server);
-?>

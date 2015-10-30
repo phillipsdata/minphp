@@ -1,0 +1,39 @@
+{
+    "name": "minphp/minphp",
+    "description": "An extremely lightweight MVC framework",
+    "homepage": "http://github.com/phillipsdata/minphp",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cody Phillips",
+            "email": "therealclphillips@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "minphp/cache": "dev-master",
+        "minphp/configure": "dev-master",
+        "minphp/container": "dev-master",
+        "minphp/date": "dev-master",
+        "minphp/form": "dev-master",
+        "minphp/html": "dev-master",
+        "minphp/input": "dev-master",
+        "minphp/language": "dev-master",
+        "minphp/pagination": "dev-master",
+        "minphp/xml": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "squizlabs/php_codesniffer": "~2.2",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "classmap": [
+            "src/app",
+            "src/components",
+            "src/helpers",
+            "src/lib"
+        ]
+    }
+}

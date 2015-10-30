@@ -20,4 +20,3 @@ Configure::set("Session.tbl_val", "value");
 Configure::set("Session.session_name", "sid");
 // Whether or not enable HTTP only session cookies
 Configure::set("Session.session_httponly", true);
-?>
